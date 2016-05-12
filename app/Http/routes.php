@@ -10,6 +10,7 @@ Route::group(['middleware' => ['web']], function () {
     });
 
     Route::group(['middleware' => 'auth'], function () {
+        # Tweet approval/revision functions
         Route::get('/tweet', 'TweetController@getTweet');
         Route::post('/tweet', 'TweetController@postTweet');
         Route::get('/tweet/create', 'TweetController@getCreate');
@@ -21,17 +22,14 @@ Route::group(['middleware' => ['web']], function () {
         Route::get('/tweet/revise', 'TweetController@getRevise');
         Route::post('/tweet/revise', 'TweetController@postRevise');
 
+        # URL shortener
         Route::post('/bitly', 'BitlyController@postBitly');
 
+        # Twitter API routes
         Route::get('twitter/login', ['as' => 'twitter.login', 'uses' =>'TwitterController@getLogin']);
         Route::get('twitter/callback', ['as' => 'twitter.callback', 'uses' => 'TwitterController@getCallback']);
         Route::get('twitter/error', 'TwitterController@getError');
         Route::get('twitter/logout', ['as' => 'twitter.logout', 'uses' => 'TwitterController@getLogout']);
-    });
-
-    Route::get('/practice', function() {
-        $random = new Random();
-        return $random->getRandomString(10);
     });
 
     # Show login form
@@ -46,39 +44,23 @@ Route::group(['middleware' => ['web']], function () {
         return redirect('/');
     });
 
-    # Show registration form
+    # Show registration form, disabled currently so users must register with an organization
     # Route::get('/register', 'Auth\AuthController@getRegister');
 
     # Process registration form
     Route::post('/register', 'Auth\AuthController@postRegister');
 
-    # Org logins
+    # Organization logins
     Route::get('/register/{organization?}', function($organization)
         {
             return view('auth.register')->with('organization',$organization);
         });
     # Route::post('/register/{organization?}', 'Auth\AuthController@postRegister');
 
-    # Restrict certain routes to only be viewable in the local environments
+    # Local environment routes
     if(App::environment('local')) {
         Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
     }
-
-    Route::get('/confirm-login-worked', function() {
-
-    # You may access the authenticated user via the Auth facade
-    $user = Auth::user();
-
-    if($user) {
-        echo 'You are logged in.';
-        dump($user->toArray());
-    } else {
-        echo 'You are not logged in.';
-    }
-
-    return;
-
-    });
 
     Route::get('/debug', function() {
 
