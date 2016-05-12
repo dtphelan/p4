@@ -155,6 +155,7 @@ class TweetController extends Controller {
     /* Responds to /tweet/archive, makes a list of used tweets */
     public function getArchive() {
         $tweets = \App\Tweet::where('status', 'LIKE', 3)
+            ->where('organization', 'LIKE', Auth::user()->organization)
             ->orwhere('status', 'LIKE', 4)
             ->where('organization', 'LIKE', Auth::user()->organization)
             ->get();
