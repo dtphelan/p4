@@ -9,7 +9,7 @@ Visit the working site at [p4.danielphelan.me](http://p4.danielphelan.me).
 For TA grading purposes, Jill and Jamal may login with the suggested password.
 
 ## Demo
-Video coming soon.
+[Demo video here](http://screencast.com/t/aHKa73VLG6jI).
 
 ## Outside Code
 Styling with [Boostrap](http://getboostrap.com).
